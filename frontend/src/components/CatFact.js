@@ -90,7 +90,7 @@ const CatContainer = styled(Card)({
   alignItems: 'center',
   padding: '1rem',
   textAlign: 'center',
-  backgroundColor: '#7B2CBF',
+  backgroundColor: '#4A235A',
   color: '#ffffff',
   overflow: 'hidden'
 });
@@ -128,89 +128,94 @@ const CatFact = () => {
 
   return (
     <ThemeProvider theme={theme}>
-      <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
+      <Box sx={{ 
+        display: 'flex', 
+        flexDirection: 'column', 
+        alignItems: 'center', 
+        gap: 0,
+        m: 0,
+        p: 0
+      }}>
         <CatContainer>
-          <CardContent sx={{
-            overflow: 'hidden'
-          }}>
-            <Box sx={{ 
-              display: 'flex', 
-              flexDirection: 'column',
-              alignItems: 'center',
-              height: '100%',
-              padding: '0.5rem',
-              overflow: 'hidden'
-            }}>
-              {loading ? (
-                <CircularProgress />
-              ) : (
-                <>
-                  {imageUrl && (
-                    <CardMedia 
-                      component="img" 
-                      height="80%" 
-                      image={imageUrl} 
-                      alt="Cat image" 
-                      sx={{ 
-                        borderRadius: '8px',
-                        mt: 1,
-                        mb: 1
-                      }}
-                    />
-                  )}
-                  <Box sx={{ 
-                    width: '100%', 
-                    px: 1,
-                    mb: 1
-                  }}>
-                    <Typography 
-                      variant="body1" 
-                      sx={{ 
-                        fontSize: '1.1rem',
-                        lineHeight: 1.6,
-                        fontWeight: 300,
-                        textAlign: 'center'
-                      }}
-                    >
-                      {fact || 'Click the button to get a random cat fact!'}
-                    </Typography>
-                  </Box>
-                  <Box sx={{ 
-                    width: '100%',
-                    mt: 'auto',
-                    padding: '0.5rem'
-                  }}>
-                    {source && (
-                      <Typography 
-                        variant="caption" 
-                        sx={{
-                          fontSize: '0.75rem',
-                          textAlign: 'center'
-                        }}
-                      >
-                        Source: {source || 'Unknown'}
-                      </Typography>
-                    )}
-                  </Box>
-                </>
+          {loading ? (
+            <CircularProgress />
+          ) : (
+            <>
+              {imageUrl && (
+                <Box sx={{
+                  width: '100%',
+                  height: '75%',
+                  borderRadius: '8px',
+                  overflow: 'hidden',
+                  p: 0
+                }}>
+                  <img 
+                    src={imageUrl} 
+                    alt="Cat image" 
+                    style={{
+                      width: '100%',
+                      height: '100%',
+                      objectFit: 'cover'
+                    }}
+                  />
+                </Box>
               )}
-            </Box>
-          </CardContent>
+              <Box sx={{ 
+                width: '95%',
+                height: '20%',
+                mx: 'auto',
+                backgroundColor: '#7B2CBF',
+                borderRadius: '8px',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center'
+              }}>
+                <Typography 
+                  variant="body1" 
+                  sx={{
+                    fontSize: '1rem',
+                    lineHeight: 1.5,
+                    textAlign: 'center'
+                  }}
+                >
+                  {fact || 'Click the button to get a random cat fact!'}
+                </Typography>
+              </Box>
+              {source && (
+                <Typography 
+                  variant="caption" 
+                  sx={{
+                    color: '#fff',
+                    textAlign: 'center'
+                  }}
+                >
+                  Source: {source || 'Unknown'}
+                </Typography>
+              )}
+            </>
+          )}
         </CatContainer>
-        <Button
-          variant="contained"
-          onClick={fetchCatFact}
-          sx={{
-            width: '200px',
-            height: '50px',
-            fontSize: '1rem',
-            textTransform: 'none'
-          }}
-          disabled={loading}
-        >
-          {loading ? 'Loading...' : 'Tell me about cats'}
-        </Button>
       </Box>
+      <Button
+        variant="contained"
+        onClick={fetchCatFact}
+        sx={{
+          width: '200px',
+          height: '50px',
+          fontSize: '1rem',
+          textTransform: 'none',
+          backgroundColor: '#7B2CBF',
+          color: '#fff',
+          fontWeight: 'bold',
+          borderRadius: '20px',
+          '&:hover': {
+            backgroundColor: '#6A2DAA'
+          }
+        }}
+        disabled={loading}
+      >
+        {loading ? 'Loading...' : 'Tell me about cats'}
+      </Button>
     </ThemeProvider>
   );
 };
