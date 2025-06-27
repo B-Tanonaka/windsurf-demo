@@ -1,0 +1,13 @@
+{
+  "name": "windsurf-demo",
+  "version": "1.0.0",
+  "description": "React project with Node.js backend",
+  "scripts": {
+    "start": "node backend/server.js",
+    "client": "cd frontend && npm start",
+    "dev": "concurrently \"npm run start\" \"npm run client\""
+  },
+  "dependencies": {
+    "concurrently": "^8.2.1"
+  }
+}
