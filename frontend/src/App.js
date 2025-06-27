@@ -1,27 +1,41 @@
-import CatFact from './components/CatFact';
+import React from 'react';
+import { ThemeProvider, createTheme } from '@mui/material';
+import CssBaseline from '@mui/material/CssBaseline';
+import Box from '@mui/material/Box';
+import Typography from '@mui/material/Typography';
+
+const theme = createTheme({
+  palette: {
+    mode: 'dark',
+    primary: {
+      main: '#1976d2',
+    },
+    background: {
+      default: '#121212',
+    },
+  },
+});
 
 function App() {
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      minHeight: '100vh',
-      padding: '2rem 1rem',
-      boxSizing: 'border-box',
-      background: 'linear-gradient(135deg, #2d1a4a 0%, #3d215a 100%)',
-      backgroundSize: 'cover',
-      overflow: 'hidden'
-    }}>
-      <h1 style={{
-        fontSize: '2.5rem',
-        marginBottom: '3rem',
-        color: '#333'
-      }}>
-        Random Cat Fact Generator
-      </h1>
-      <CatFact />
-    </div>
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Box
+        sx={{
+          minHeight: '100vh',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          bgcolor: 'background.default',
+          color: 'text.primary',
+        }}
+      >
+        <Typography variant="h1" component="h1" gutterBottom>
+          Welcome to Game Project
+        </Typography>
+      </Box>
+    </ThemeProvider>
   );
 }
 
