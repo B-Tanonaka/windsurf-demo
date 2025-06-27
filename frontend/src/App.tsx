@@ -3,6 +3,7 @@ import { ThemeProvider, createTheme } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import Game from './components/Game';
 
 const theme = createTheme({
   palette: {
@@ -29,11 +30,10 @@ function App() {
           justifyContent: 'center',
           bgcolor: 'background.default',
           color: 'text.primary',
+          p: 2,
         }}
       >
-        <Typography variant="h1" component="h1" gutterBottom>
-          Welcome to Game Project
-        </Typography>
+        <Game />
       </Box>
     </ThemeProvider>
   );
