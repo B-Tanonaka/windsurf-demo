@@ -7,6 +7,7 @@ import {
   CardContent,
   CardMedia,
   CircularProgress,
+  Paper,
   Typography,
   styled,
   createTheme,
@@ -161,25 +162,36 @@ const CatFact = () => {
                 </Box>
               )}
               <Box sx={{ 
-                width: '95%',
+                width: '100%',
                 height: '20%',
-                mx: 'auto',
-                backgroundColor: '#7B2CBF',
-                borderRadius: '8px',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center'
               }}>
-                <Typography 
-                  variant="body1" 
-                  sx={{
-                    fontSize: '1rem',
-                    lineHeight: 1.5,
-                    textAlign: 'center'
-                  }}
-                >
-                  {fact || 'Click the button to get a random cat fact!'}
-                </Typography>
+                <Box sx={{
+                  width: '100%',
+                  height: '100%',
+                  backgroundColor: '#2d2d2d',
+                  borderRadius: '8px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  overflow: 'hidden'
+                }}>
+                  <Typography 
+                    variant="body1" 
+                    sx={{
+                      fontSize: '1rem',
+                      lineHeight: 1.5,
+                      textAlign: 'center',
+                      width: '95%',
+                      mx: 'auto',
+                      p: 1
+                    }}
+                  >
+                    {fact || 'Click the button to get a random cat fact!'}
+                  </Typography>
+                </Box>
               </Box>
               {source && (
                 <Typography 
