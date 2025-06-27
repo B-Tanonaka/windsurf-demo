@@ -90,12 +90,9 @@ const CatContainer = styled(Card)({
   alignItems: 'center',
   padding: '1rem',
   textAlign: 'center',
-  transition: 'transform 0.2s',
   backgroundColor: '#7B2CBF',
   color: '#ffffff',
-  '&:hover': {
-    transform: 'scale(1.02)',
-  }
+  overflow: 'hidden'
 });
 
 const CatMedia = styled(CardMedia)({
@@ -133,13 +130,16 @@ const CatFact = () => {
     <ThemeProvider theme={theme}>
       <Box sx={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 3 }}>
         <CatContainer>
-          <CardContent>
+          <CardContent sx={{
+            overflow: 'hidden'
+          }}>
             <Box sx={{ 
               display: 'flex', 
               flexDirection: 'column',
-              position: 'relative',
+              alignItems: 'center',
               height: '100%',
-              padding: '0.5rem'
+              padding: '0.5rem',
+              overflow: 'hidden'
             }}>
               {loading ? (
                 <CircularProgress />
@@ -175,16 +175,11 @@ const CatFact = () => {
                       {fact || 'Click the button to get a random cat fact!'}
                     </Typography>
                   </Box>
-                  <Box 
-                    sx={{ 
-                      width: '100%',
-                      position: 'absolute',
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      padding: '1rem'
-                    }}
-                  >
+                  <Box sx={{ 
+                    width: '100%',
+                    mt: 'auto',
+                    padding: '0.5rem'
+                  }}>
                     {source && (
                       <Typography 
                         variant="caption" 

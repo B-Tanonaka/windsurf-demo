@@ -10,7 +10,8 @@ function App() {
       padding: '2rem 1rem',
       boxSizing: 'border-box',
       background: 'linear-gradient(135deg, #2d1a4a 0%, #3d215a 100%)',
-      backgroundSize: 'cover'
+      backgroundSize: 'cover',
+      overflow: 'hidden'
     }}>
       <h1 style={{
         fontSize: '2.5rem',
