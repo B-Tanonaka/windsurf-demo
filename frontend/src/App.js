@@ -11,7 +11,7 @@ function App() {
       minHeight: '100vh',
       padding: '2rem 1rem',
       boxSizing: 'border-box',
-      background: 'linear-gradient(135deg, #2d1a4a 0%, #3d215a 100%)',
+      background: 'linear-gradient(135deg, #001a33 0%, #00264d 100%)',
       backgroundSize: 'cover',
       overflow: 'hidden'
     }}>
