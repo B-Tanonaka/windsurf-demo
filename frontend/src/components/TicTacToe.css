@@ -86,24 +86,30 @@
   height: 100%;
   padding: 4px;
   box-sizing: border-box;
-  border: 2px solid rgba(255, 255, 255, 0.2);
+  opacity: 0.8;
+  box-shadow: none;
+  border: none;
 }
 
 .board.active {
   border: 2px solid #71e9d8;
-  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
-}
-
-.board.won {
-  opacity: 0.8;
+  box-shadow: 0 0 10px rgba(113, 233, 216, 0.3);
+  transition: all 0.3s ease;
 }
 
 .board.won-by-x {
-  background-color: rgba(233, 119, 159, 0.2);
+  background-color: rgba(233, 119, 159, 0.3);
+  opacity: 1;
 }
 
 .board.won-by-o {
-  background-color: rgba(0, 166, 255, 0.2);
+  background-color: rgba(0, 166, 255, 0.3);
+  opacity: 1;
+}
+
+.board.won {
+  opacity: 1 !important;
+  border: none;
 }
 
 .selected-info {

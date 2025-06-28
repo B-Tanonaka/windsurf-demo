@@ -66,7 +66,12 @@ const TicTacToe: React.FC = () => {
   };
 
   const handleCellClick = (boardRow: number, boardCol: number, cellRow: number, cellCol: number) => {
-    if (gameWinner) return;
+    if (gameWinner) {
+      // Clear history when starting a new game
+      setHistory([]);
+      setCurrentStep(0);
+      return;
+    }
 
     // Check if this move would force the other player into a won board
     const nextBoardIndex = cellRow * 3 + cellCol;
