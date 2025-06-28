@@ -1,4 +1,5 @@
-import CatFact from './components/CatFact';
+import './components/TicTacToe.css';
+import TicTacToe from './components/TicTacToe';
 
 function App() {
   return (
@@ -13,14 +14,14 @@ function App() {
       backgroundSize: 'cover',
       overflow: 'hidden'
     }}>
-      <h1 style={{
-        fontSize: '2.5rem',
-        marginBottom: '3rem',
-        color: '#333'
+      <div style={{
+        width: '100%',
+        maxWidth: '800px',
+        margin: '0 auto',
+        paddingTop: '2rem'
       }}>
-        Random Cat Fact Generator
-      </h1>
-      <CatFact />
+        <TicTacToe />
+      </div>
     </div>
   );
 }
