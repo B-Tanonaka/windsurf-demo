@@ -10,7 +10,16 @@ interface Board {
   winner: 'X' | 'O' | null;
 }
 
+interface GameState {
+  boards: Board[][];
+  currentPlayer: 'X' | 'O';
+  selectedBoard: number | null;
+  gameWinner: 'X' | 'O' | null;
+}
+
 const TicTacToe: React.FC = () => {
+  const [history, setHistory] = useState<GameState[]>([]);
+  const [currentStep, setCurrentStep] = useState<number>(0);
   const [boards, setBoards] = useState<Board[][]>(() => {
     const initialBoards: Board[][] = Array(3).fill(null).map(() => 
       Array(3).fill(null).map(() => ({
@@ -58,7 +67,13 @@ const TicTacToe: React.FC = () => {
 
   const handleCellClick = (boardRow: number, boardCol: number, cellRow: number, cellCol: number) => {
     if (gameWinner) return;
-    
+
+    // Check if player is trying to play in the correct board
+    if (selectedBoard !== null && selectedBoard !== boardRow * 3 + boardCol) {
+      // Only allow playing in other boards if the target board is won
+      if (!boards[boardRow][boardCol].winner) return;
+    }
+
     // If the board is won but the player is forced to play here, allow the move
     const isForcedMove = selectedBoard !== null && selectedBoard === boardRow * 3 + boardCol;
     if (boards[boardRow][boardCol].winner && !isForcedMove) return;
@@ -89,6 +104,15 @@ const TicTacToe: React.FC = () => {
     } else {
       setSelectedBoard(cellRow * 3 + cellCol);
     }
+
+    // Update game state
+    setHistory(prev => [...prev.slice(0, currentStep + 1), {
+      boards: newBoards,
+      currentPlayer: currentPlayer === 'X' ? 'O' : 'X',
+      selectedBoard: boards[boardRow][boardCol].winner ? null : cellRow * 3 + cellCol,
+      gameWinner: gameWinner || null
+    }]);
+    setCurrentStep(currentStep + 1);
   };
 
   const renderBoard = (board: Board, boardRow: number, boardCol: number): React.ReactElement => {
@@ -115,12 +139,36 @@ const TicTacToe: React.FC = () => {
     );
   };
 
+  const handleUndo = () => {
+    if (currentStep > 0) {
+      const previousState = history[currentStep - 1];
+      setBoards(previousState.boards);
+      setCurrentPlayer(previousState.currentPlayer);
+      setSelectedBoard(previousState.selectedBoard);
+      setGameWinner(previousState.gameWinner);
+      setCurrentStep(currentStep - 1);
+
+      // Force re-render to update board restrictions
+      setBoards(prev => {
+        const newBoards = JSON.parse(JSON.stringify(prev));
+        return newBoards;
+      });
+    }
+  };
+
   return (
     <div className="game">
       <h1>Ultimate Tic Tac Toe</h1>
       <div className="game-info">
         <div>Player {currentPlayer}'s turn</div>
         {gameWinner && <div>Player {gameWinner} wins!</div>}
+        <button
+          className="undo-button"
+          onClick={handleUndo}
+          disabled={currentStep === 0}
+        >
+          Undo Last Move
+        </button>
       </div>
       <div className="game-board">
         {boards.map((row, i) => (
