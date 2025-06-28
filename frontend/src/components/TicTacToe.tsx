@@ -68,6 +68,19 @@ const TicTacToe: React.FC = () => {
   const handleCellClick = (boardRow: number, boardCol: number, cellRow: number, cellCol: number) => {
     if (gameWinner) return;
 
+    // Check if this move would force the other player into a won board
+    const nextBoardIndex = cellRow * 3 + cellCol;
+    const nextBoard = boards[Math.floor(nextBoardIndex / 3)][nextBoardIndex % 3];
+    const isForcedToWonBoard = selectedBoard !== null && nextBoard.winner;
+
+    // If player is forced to play in a won board, allow any board
+    if (selectedBoard !== null && boards[boardRow][boardCol].winner) {
+      // Allow any board since the player is forced into a won board
+      if (boards[boardRow][boardCol].cells[cellRow][cellCol].value) return;
+      setSelectedBoard(null);
+      return;
+    }
+
     // Check if player is trying to play in the correct board
     if (selectedBoard !== null && selectedBoard !== boardRow * 3 + boardCol) {
       // Only allow playing in other boards if the target board is won
@@ -98,8 +111,10 @@ const TicTacToe: React.FC = () => {
     setBoards(newBoards);
     setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
     
-    // If the board is won, next player can choose any board
-    if (boards[boardRow][boardCol].winner) {
+    // Update board selection based on move
+    if (isForcedToWonBoard) {
+      setSelectedBoard(null);
+    } else if (boards[boardRow][boardCol].winner) {
       setSelectedBoard(null);
     } else {
       setSelectedBoard(cellRow * 3 + cellCol);
@@ -118,7 +133,7 @@ const TicTacToe: React.FC = () => {
   const renderBoard = (board: Board, boardRow: number, boardCol: number): React.ReactElement => {
     const boardClass = `board ${board.winner ? 'won' : ''} ${
       selectedBoard === boardRow * 3 + boardCol ? 'active' : ''
-    }`;
+    } ${board.winner === 'X' ? 'won-by-x' : board.winner === 'O' ? 'won-by-o' : ''}`;
     return (
       <div className={boardClass}>
         {board.cells.map((row, i) => (
