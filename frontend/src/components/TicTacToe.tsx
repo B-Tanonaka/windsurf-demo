@@ -57,8 +57,12 @@ const TicTacToe: React.FC = () => {
   };
 
   const handleCellClick = (boardRow: number, boardCol: number, cellRow: number, cellCol: number) => {
-    if (gameWinner || boards[boardRow][boardCol].winner) return;
-    if (selectedBoard !== null && selectedBoard !== boardRow * 3 + boardCol) return;
+    if (gameWinner) return;
+    
+    // If the board is won but the player is forced to play here, allow the move
+    const isForcedMove = selectedBoard !== null && selectedBoard === boardRow * 3 + boardCol;
+    if (boards[boardRow][boardCol].winner && !isForcedMove) return;
+    
     if (boards[boardRow][boardCol].cells[cellRow][cellCol].value) return;
 
     const newBoards = JSON.parse(JSON.stringify(boards));
@@ -78,11 +82,19 @@ const TicTacToe: React.FC = () => {
 
     setBoards(newBoards);
     setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
-    setSelectedBoard(cellRow * 3 + cellCol);
+    
+    // If the board is won, next player can choose any board
+    if (boards[boardRow][boardCol].winner) {
+      setSelectedBoard(null);
+    } else {
+      setSelectedBoard(cellRow * 3 + cellCol);
+    }
   };
 
   const renderBoard = (board: Board, boardRow: number, boardCol: number): React.ReactElement => {
-    const boardClass = `board ${board.winner ? 'won' : ''}`;
+    const boardClass = `board ${board.winner ? 'won' : ''} ${
+      selectedBoard === boardRow * 3 + boardCol ? 'active' : ''
+    }`;
     return (
       <div className={boardClass}>
         {board.cells.map((row, i) => (
@@ -121,6 +133,11 @@ const TicTacToe: React.FC = () => {
           </div>
         ))}
       </div>
+      {selectedBoard !== null && (
+        <div className="selected-info">
+          Next player must play in the highlighted board
+        </div>
+      )}
     </div>
   );
 };

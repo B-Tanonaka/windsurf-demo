@@ -36,6 +36,27 @@
   gap: 5px;
   background-color: white;
   border-radius: 4px;
+  transition: all 0.3s ease;
+}
+
+.board.active {
+  border: 2px solid #4CAF50;
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.3);
+}
+
+.board.won {
+  opacity: 0.7;
+  background-color: #f0f0f0;
+}
+
+.selected-info {
+  margin-top: 1rem;
+  padding: 1rem;
+  background-color: #f8f9fa;
+  border-radius: 4px;
+  text-align: center;
+  color: #666;
+  font-size: 0.9rem;
 }
 
 .cell {
