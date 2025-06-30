@@ -17,7 +17,11 @@ interface GameState {
   gameWinner: 'X' | 'O' | null;
 }
 
-const TicTacToe: React.FC = () => {
+interface Props {
+  onMove?: () => void;
+}
+
+const TicTacToe: React.FC<Props> = ({ onMove }) => {
   // Initialize game state
   const [history, setHistory] = useState<GameState[]>([{
     boards: Array(3).fill(null).map(() => 
@@ -72,8 +76,13 @@ const TicTacToe: React.FC = () => {
   };
 
   const handleCellClick = (boardRow: number, boardCol: number, cellRow: number, cellCol: number) => {
+    const currentGameState = history[history.length - 1];
+    const boards = currentGameState.boards;
+    const currentPlayer = currentGameState.currentPlayer;
+    const selectedBoard = currentGameState.selectedBoard;
+    const gameWinner = currentGameState.gameWinner;
+
     if (gameWinner) {
-      // Reset game when there's a winner
       setHistory([{
         boards: Array(3).fill(null).map(() => 
           Array(3).fill(null).map(() => ({
@@ -91,33 +100,21 @@ const TicTacToe: React.FC = () => {
       return;
     }
 
-    // Check if this move would force the other player into a won board
+    const board = boards[boardRow][boardCol];
+    const cell = board.cells[cellRow][cellCol];
     const nextBoardIndex = cellRow * 3 + cellCol;
     const nextBoard = boards[Math.floor(nextBoardIndex / 3)][nextBoardIndex % 3];
-    const isForcedToWonBoard = selectedBoard !== null && nextBoard.winner;
 
-    // Check if player is trying to play in the correct board
-    if (selectedBoard !== null && selectedBoard !== boardRow * 3 + boardCol) {
-      // Only allow playing in other boards if the target board is won
-      if (!boards[boardRow][boardCol].winner) return;
-    }
-
-    // If the board is won but the player is forced to play here, allow the move
-    const isForcedMove = selectedBoard !== null && selectedBoard === boardRow * 3 + boardCol;
-    if (boards[boardRow][boardCol].winner && !isForcedMove) return;
-    
-    if (boards[boardRow][boardCol].cells[cellRow][cellCol].value) return;
+    if (cell.value !== null) return;
 
     const newBoards = JSON.parse(JSON.stringify(boards));
     newBoards[boardRow][boardCol].cells[cellRow][cellCol].value = currentPlayer;
-
     const boardWinner = checkWinner(newBoards[boardRow][boardCol].cells);
     if (boardWinner) {
       newBoards[boardRow][boardCol].winner = boardWinner;
-      const gameWinner = checkWinner(newBoards.map((row: Board[]) => row.map((board: Board) => ({
-        value: board.winner,
-        won: board.winner !== null
-      }))));
+      const boardWinners = newBoards.map((row: Board[]) => row.map((board: Board) => board.winner));
+      const gameWinner = checkWinner(boardWinners.flat());
+
       if (gameWinner) {
         setHistory([{
           boards: Array(3).fill(null).map(() => 
@@ -135,16 +132,26 @@ const TicTacToe: React.FC = () => {
         }]);
         return;
       }
-    }
 
-    // Update game state
-    setHistory(prev => [...prev, {
-      boards: newBoards,
-      currentPlayer: currentPlayer === 'X' ? 'O' : 'X',
-      // If the next player would be forced into a won board, allow them to play anywhere
-      selectedBoard: nextBoard.winner ? null : cellRow * 3 + cellCol,
-      gameWinner: null
-    }]);
+      setHistory(prev => [...prev, {
+        boards: newBoards,
+        currentPlayer: currentPlayer === 'X' ? 'O' : 'X',
+        selectedBoard: nextBoard.winner ? null : cellRow * 3 + cellCol,
+        gameWinner: null
+      }]);
+
+      // Trigger cat fact generation
+      if (onMove) {
+        onMove();
+      }
+    } else {
+      setHistory(prev => [...prev, {
+        boards: newBoards,
+        currentPlayer: currentPlayer === 'X' ? 'O' : 'X',
+        selectedBoard: nextBoard.winner ? null : cellRow * 3 + cellCol,
+        gameWinner: null
+      }]);
+    }
   };
 
   const renderBoard = (board: Board, boardRow: number, boardCol: number): React.ReactElement => {

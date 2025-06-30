@@ -1,27 +1,26 @@
+import React, { useState } from 'react';
 import './components/TicTacToe.css';
 import TicTacToe from './components/TicTacToe';
+import CatFact from './components/CatFact';
 
 function App() {
+  const [showCatFact, setShowCatFact] = useState(false);
+
+  const handleMove = () => {
+    setShowCatFact(true);
+  };
+
   return (
-    <div style={{
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'center',
-      justifyContent: 'center',
-      minHeight: '100vh',
-      boxSizing: 'border-box',
-      background: 'linear-gradient(135deg, #001a33 0%, #00264d 100%)',
-      backgroundSize: 'cover',
-      overflow: 'auto'
-    }}>
-      <div style={{
-        width: '100%',
-        maxWidth: '60%',
-        margin: '0 auto',
-        padding: '1rem'
-      }}>
-        <TicTacToe />
+    <div className="game">
+      <div className="game-info">
+        <h1>Ultimate Tic Tac Toe with Cat Facts</h1>
       </div>
+      <TicTacToe onMove={handleMove} />
+      {showCatFact && (
+        <div className="cat-fact-container">
+          <CatFact />
+        </div>
+      )}
     </div>
   );
 }
