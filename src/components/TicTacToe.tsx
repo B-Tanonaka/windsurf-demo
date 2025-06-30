@@ -18,10 +18,9 @@ interface GameState {
 }
 
 const TicTacToe: React.FC = () => {
-  const [history, setHistory] = useState<GameState[]>([]);
-  const [currentStep, setCurrentStep] = useState<number>(0);
-  const [boards, setBoards] = useState<Board[][]>(() => {
-    const initialBoards: Board[][] = Array(3).fill(null).map(() => 
+  // Initialize game state
+  const [history, setHistory] = useState<GameState[]>([{
+    boards: Array(3).fill(null).map(() => 
       Array(3).fill(null).map(() => ({
         cells: Array(3).fill(null).map(() => Array(3).fill(null).map(() => ({
           value: null,
@@ -29,12 +28,19 @@ const TicTacToe: React.FC = () => {
         }))) as Cell[][],
         winner: null
       }))
-    );
-    return initialBoards;
-  });
-  const [currentPlayer, setCurrentPlayer] = useState<'X' | 'O'>('X');
-  const [selectedBoard, setSelectedBoard] = useState<number | null>(null);
-  const [gameWinner, setGameWinner] = useState<'X' | 'O' | null>(null);
+    ),
+    currentPlayer: 'X',
+    selectedBoard: null,
+    gameWinner: null
+  }]);
+
+  // Derived state from history
+  const currentStep = history.length - 1;
+  const currentGameState = history[currentStep];
+  const boards = currentGameState.boards;
+  const currentPlayer = currentGameState.currentPlayer;
+  const selectedBoard = currentGameState.selectedBoard;
+  const gameWinner = currentGameState.gameWinner;
 
   const checkWinner = (cells: Cell[][]) => {
     const lines = [
@@ -67,9 +73,21 @@ const TicTacToe: React.FC = () => {
 
   const handleCellClick = (boardRow: number, boardCol: number, cellRow: number, cellCol: number) => {
     if (gameWinner) {
-      // Clear history when starting a new game
-      setHistory([]);
-      setCurrentStep(0);
+      // Reset game when there's a winner
+      setHistory([{
+        boards: Array(3).fill(null).map(() => 
+          Array(3).fill(null).map(() => ({
+            cells: Array(3).fill(null).map(() => Array(3).fill(null).map(() => ({
+              value: null,
+              won: false
+            }))) as Cell[][],
+            winner: null
+          }))
+        ),
+        currentPlayer: 'X',
+        selectedBoard: null,
+        gameWinner: null
+      }]);
       return;
     }
 
@@ -77,14 +95,6 @@ const TicTacToe: React.FC = () => {
     const nextBoardIndex = cellRow * 3 + cellCol;
     const nextBoard = boards[Math.floor(nextBoardIndex / 3)][nextBoardIndex % 3];
     const isForcedToWonBoard = selectedBoard !== null && nextBoard.winner;
-
-    // If player is forced to play in a won board, allow any board
-    if (selectedBoard !== null && boards[boardRow][boardCol].winner) {
-      // Allow any board since the player is forced into a won board
-      if (boards[boardRow][boardCol].cells[cellRow][cellCol].value) return;
-      setSelectedBoard(null);
-      return;
-    }
 
     // Check if player is trying to play in the correct board
     if (selectedBoard !== null && selectedBoard !== boardRow * 3 + boardCol) {
@@ -109,30 +119,32 @@ const TicTacToe: React.FC = () => {
         won: board.winner !== null
       }))));
       if (gameWinner) {
-        setGameWinner(gameWinner);
+        setHistory([{
+          boards: Array(3).fill(null).map(() => 
+            Array(3).fill(null).map(() => ({
+              cells: Array(3).fill(null).map(() => Array(3).fill(null).map(() => ({
+                value: null,
+                won: false
+              }))) as Cell[][],
+              winner: null
+            }))
+          ),
+          currentPlayer: 'X',
+          selectedBoard: null,
+          gameWinner: null
+        }]);
+        return;
       }
     }
 
-    setBoards(newBoards);
-    setCurrentPlayer(currentPlayer === 'X' ? 'O' : 'X');
-    
-    // Update board selection based on move
-    if (isForcedToWonBoard) {
-      setSelectedBoard(null);
-    } else if (boards[boardRow][boardCol].winner) {
-      setSelectedBoard(null);
-    } else {
-      setSelectedBoard(cellRow * 3 + cellCol);
-    }
-
     // Update game state
-    setHistory(prev => [...prev.slice(0, currentStep + 1), {
+    setHistory(prev => [...prev, {
       boards: newBoards,
       currentPlayer: currentPlayer === 'X' ? 'O' : 'X',
-      selectedBoard: boards[boardRow][boardCol].winner ? null : cellRow * 3 + cellCol,
-      gameWinner: gameWinner || null
+      // If the next player would be forced into a won board, allow them to play anywhere
+      selectedBoard: nextBoard.winner ? null : cellRow * 3 + cellCol,
+      gameWinner: null
     }]);
-    setCurrentStep(currentStep + 1);
   };
 
   const renderBoard = (board: Board, boardRow: number, boardCol: number): React.ReactElement => {
@@ -160,32 +172,26 @@ const TicTacToe: React.FC = () => {
   };
 
   const handleUndo = () => {
-    if (currentStep > 0) {
-      const previousState = history[currentStep - 1];
-      setBoards(previousState.boards);
-      setCurrentPlayer(previousState.currentPlayer);
-      setSelectedBoard(previousState.selectedBoard);
-      setGameWinner(previousState.gameWinner);
-      setCurrentStep(currentStep - 1);
-
-      // Force re-render to update board restrictions
-      setBoards(prev => {
-        const newBoards = JSON.parse(JSON.stringify(prev));
-        return newBoards;
-      });
+    if (history.length > 1) {
+      setHistory(prev => prev.slice(0, -1));
     }
   };
 
   return (
     <div className="game">
       <h1 style={{ color: 'white' }}>Ultimate Tic Tac Toe</h1>
+      {selectedBoard !== null && (
+        <div className="selected-info">
+          Next player must play in the highlighted board
+        </div>
+      )}
       <div className="game-info">
         <div>Player {currentPlayer}'s turn</div>
         {gameWinner && <div>Player {gameWinner} wins!</div>}
         <button
-          className="undo-button"
+          className={`undo-button ${history.length > 1 ? 'enabled' : ''}`}
           onClick={handleUndo}
-          disabled={currentStep === 0}
+          disabled={history.length <= 1}
         >
           Undo Last Move
         </button>
@@ -201,11 +207,6 @@ const TicTacToe: React.FC = () => {
           </div>
         ))}
       </div>
-      {selectedBoard !== null && (
-        <div className="selected-info">
-          Next player must play in the highlighted board
-        </div>
-      )}
     </div>
   );
 };

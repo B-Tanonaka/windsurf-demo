@@ -9,15 +9,14 @@ function App() {
       alignItems: 'center',
       justifyContent: 'center',
       minHeight: '100vh',
-      padding: '2rem 1rem',
       boxSizing: 'border-box',
       background: 'linear-gradient(135deg, #001a33 0%, #00264d 100%)',
       backgroundSize: 'cover',
-      overflow: 'hidden'
+      overflow: 'auto'
     }}>
       <div style={{
         width: '100%',
-        maxWidth: '800px',
+        maxWidth: '60%',
         margin: '0 auto',
         padding: '1rem'
       }}>
