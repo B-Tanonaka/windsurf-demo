@@ -31,29 +31,31 @@ const CatFact = ({ fact }) => {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(false);
 
+  const fetchCatFact = async () => {
+    setLoading(true);
+    try {
+      // In development, use the local server if needed
+      const apiUrl = process.env.NODE_ENV === 'development' 
+        ? 'http://localhost:3002/api/cat-fact' 
+        : '/api/cat-fact';
+      
+      const response = await fetch(apiUrl);
+      if (!response.ok) {
+        throw new Error('Failed to fetch cat fact');
+      }
+      const data = await response.json();
+      onNewFact(data.fact);
+    } catch (error) {
+      console.error('Error fetching cat fact:', error);
+      setError('Failed to load cat fact. Please try again.');
+    } finally {
+      setLoading(false);
+    }
+  };
+
   useEffect(() => {
     if (fact === '') {
-      setLoading(true);
-      // Call the Cat Facts API directly
-      fetch('https://catfact.ninja/fact')
-        .then(response => response.json())
-        .then(data => {
-          setLoading(false);
-          setError(false);
-          // Update the parent component with the new fact
-          if (typeof window !== 'undefined' && window.parent && window.parent.setCatFact) {
-            window.parent.setCatFact(data.fact);
-          }
-        })
-        .catch(error => {
-          console.error('Error fetching cat fact:', error);
-          setLoading(false);
-          setError(true);
-          // Update the parent component with error message
-          if (typeof window !== 'undefined' && window.parent && window.parent.setCatFact) {
-            window.parent.setCatFact('Failed to load cat fact');
-          }
-        });
+      fetchCatFact();
     }
   }, [fact]);
 
