@@ -17,7 +17,11 @@ interface GameState {
   gameWinner: 'X' | 'O' | null;
 }
 
-const TicTacToe: React.FC = () => {
+interface TicTacToeProps {
+  onPlayerChange: (player: 'X' | 'O') => void;
+}
+
+const TicTacToe: React.FC<TicTacToeProps> = ({ onPlayerChange }) => {
   // Initialize game state
   const [history, setHistory] = useState<GameState[]>([{
     boards: Array(3).fill(null).map(() => 
@@ -138,13 +142,15 @@ const TicTacToe: React.FC = () => {
     }
 
     // Update game state
+    const nextPlayer = currentPlayer === 'X' ? 'O' : 'X';
     setHistory(prev => [...prev, {
       boards: newBoards,
-      currentPlayer: currentPlayer === 'X' ? 'O' : 'X',
+      currentPlayer: nextPlayer,
       // If the next player would be forced into a won board, allow them to play anywhere
       selectedBoard: nextBoard.winner ? null : cellRow * 3 + cellCol,
       gameWinner: null
     }]);
+    onPlayerChange(nextPlayer);
   };
 
   const renderBoard = (board: Board, boardRow: number, boardCol: number): React.ReactElement => {
@@ -186,7 +192,6 @@ const TicTacToe: React.FC = () => {
         </div>
       )}
       <div className="game-info">
-        {gameWinner && <div>Player {gameWinner} wins!</div>}
         <button
           className={`undo-button ${history.length > 1 ? 'enabled' : ''}`}
           onClick={handleUndo}
