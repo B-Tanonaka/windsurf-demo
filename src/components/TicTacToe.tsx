@@ -186,7 +186,6 @@ const TicTacToe: React.FC = () => {
         </div>
       )}
       <div className="game-info">
-        <div>Player {currentPlayer}'s turn</div>
         {gameWinner && <div>Player {gameWinner} wins!</div>}
         <button
           className={`undo-button ${history.length > 1 ? 'enabled' : ''}`}
