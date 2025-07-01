@@ -50,7 +50,32 @@ function App() {
             📚 Rules
           </button>
           <div className="game-board-container">
-            <TicTacToe onPlayerChange={handlePlayerChange} />
+            <div style={{
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+              gap: '0'
+            }}>
+              <h1 style={{ 
+                color: 'white', 
+                fontSize: '2rem', 
+                fontWeight: 'bold',
+                textAlign: 'center'
+              }}>
+                Ultimate Tic Tac Toe
+              </h1>
+              <h2 style={{ 
+                color: 'white', 
+                fontSize: '1rem', 
+                fontWeight: '300',
+                opacity: '0.8',
+                textAlign: 'center',
+                marginTop: '-0.5rem'
+              }}>
+                and cat fact generator
+              </h2>
+              <TicTacToe onPlayerChange={handlePlayerChange} />
+            </div>
           </div>
         </div>
       </div>

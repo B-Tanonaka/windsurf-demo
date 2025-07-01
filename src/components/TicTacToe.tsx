@@ -185,7 +185,6 @@ const TicTacToe: React.FC<TicTacToeProps> = ({ onPlayerChange }) => {
 
   return (
     <div className="game">
-      <h1 style={{ color: 'white' }}>Ultimate Tic Tac Toe</h1>
       <div className="game-info">
         <div>Player {currentPlayer}'s turn</div>
         {gameWinner && <div>Player {gameWinner} wins!</div>}
