@@ -1,6 +1,10 @@
-const replace = require('replace-in-file');
-const fs = require('fs');
-const path = require('path');
+import replace from 'replace-in-file';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 const buildPath = path.join(__dirname, '../build');
 
@@ -31,8 +35,22 @@ fs.writeFileSync(indexPath, indexHtml, 'utf8');
 
 // Update other files
 try {
-  const results = replace.sync(options);
+  const results = await replace(options);
   console.log('Replacement results:', results);
 } catch (error) {
   console.error('Error occurred:', error);
+  process.exit(1);
 }
+
+// Make the script self-executing
+const main = async () => {
+  try {
+    const results = await replace(options);
+    console.log('Replacement results:', results);
+  } catch (error) {
+    console.error('Error occurred:', error);
+    process.exit(1);
+  }
+};
+
+main();
