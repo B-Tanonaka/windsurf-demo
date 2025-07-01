@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "/Windsurf-Demo",
+  "homepage": "/",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -22,13 +22,11 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-app-rewired start",
-    "build": "GENERATE_SOURCEMAP=false CI=false react-app-rewired build",
-    "test": "react-app-rewired test",
+    "start": "react-scripts start",
+    "build": "CI=false react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "start:frontend": "react-app-rewired start",
+    "start:frontend": "react-scripts start",
     "start:backend": "nodemon server.js"
   },
   "eslintConfig": {
