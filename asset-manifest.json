@@ -1,12 +1,12 @@
 {
   "files": {
-    "main.css": "/Windsurf-Demo/static/css/main.c4c8f694.css",
-    "main.js": "/Windsurf-Demo/static/js/main.61e05d44.js",
-    "static/js/453.670e15c7.chunk.js": "/Windsurf-Demo/static/js/453.670e15c7.chunk.js",
-    "index.html": "/Windsurf-Demo/index.html",
-    "main.c4c8f694.css.map": "/Windsurf-Demo/static/css/main.c4c8f694.css.map",
-    "main.61e05d44.js.map": "/Windsurf-Demo/static/js/main.61e05d44.js.map",
-    "453.670e15c7.chunk.js.map": "/Windsurf-Demo/static/js/453.670e15c7.chunk.js.map"
+    "main.css": "./static/css/main.c4c8f694.css",
+    "main.js": "./static/js/main.61e05d44.js",
+    "static/js/453.670e15c7.chunk.js": "./static/js/453.670e15c7.chunk.js",
+    "index.html": "./index.html",
+    "main.c4c8f694.css.map": "./static/css/main.c4c8f694.css.map",
+    "main.61e05d44.js.map": "./static/js/main.61e05d44.js.map",
+    "453.670e15c7.chunk.js.map": "./static/js/453.670e15c7.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.c4c8f694.css",
