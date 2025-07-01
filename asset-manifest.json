@@ -1,15 +1,12 @@
 {
   "files": {
-    "main.css": "./static/css/main.c4c8f694.css",
-    "main.js": "./static/js/main.61e05d44.js",
-    "static/js/453.670e15c7.chunk.js": "./static/js/453.670e15c7.chunk.js",
-    "index.html": "./index.html",
-    "main.c4c8f694.css.map": "./static/css/main.c4c8f694.css.map",
-    "main.61e05d44.js.map": "./static/js/main.61e05d44.js.map",
-    "453.670e15c7.chunk.js.map": "./static/js/453.670e15c7.chunk.js.map"
+    "main.css": "/Windsurf-Demo/static/css/main.6703616c.css",
+    "main.js": "/Windsurf-Demo/static/js/main.20c3a79c.js",
+    "static/js/206.b88e81df.chunk.js": "/Windsurf-Demo/static/js/206.b88e81df.chunk.js",
+    "index.html": "/Windsurf-Demo/index.html"
   },
   "entrypoints": [
-    "static/css/main.c4c8f694.css",
-    "static/js/main.61e05d44.js"
+    "static/css/main.6703616c.css",
+    "static/js/main.20c3a79c.js"
   ]
 }
