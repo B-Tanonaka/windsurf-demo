@@ -186,17 +186,11 @@ const TicTacToe: React.FC<TicTacToeProps> = ({ onPlayerChange }) => {
   return (
     <div className="game">
       <h1 style={{ color: 'white' }}>Ultimate Tic Tac Toe</h1>
-      {selectedBoard !== null && (
-        <div className="selected-info">
-          Next player must play in the highlighted board
-        </div>
-      )}
       <div className="game-info">
-        <button
-          className={`undo-button ${history.length > 1 ? 'enabled' : ''}`}
-          onClick={handleUndo}
-          disabled={history.length <= 1}
-        >
+        <div>Player {currentPlayer}'s turn</div>
+        {gameWinner && <div>Player {gameWinner} wins!</div>}
+        <button className={`undo-button ${history.length > 1 ? 'enabled' : ''}`}
+          onClick={handleUndo} disabled={history.length <= 1}>
           Undo Last Move
         </button>
       </div>

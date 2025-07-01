@@ -58,35 +58,32 @@ const CatFact = ({ fact }) => {
 
   return (
     <div style={{
-      maxWidth: '400px',
-      width: '100%',
+      maxWidth: '600px',
       margin: '0 auto',
-      background: 'white',
-      borderRadius: '8px',
-      padding: '1rem',
-      boxShadow: '0 2px 4px rgba(0,0,0,0.1)',
-      marginTop: '2rem'
+      marginTop: 'rem'
     }}>
       {loading ? (
         <div style={{
           textAlign: 'center',
-          padding: '1rem'
+          color: 'white',
+          fontSize: '1.1rem'
         }}>
           Loading...
         </div>
       ) : error ? (
         <div style={{
-          color: 'red',
           textAlign: 'center',
-          padding: '1rem'
+          color: '#ff4081',
+          fontSize: '1.1rem'
         }}>
           Failed to load cat fact
         </div>
       ) : (
         <div style={{
-          fontSize: '1rem',
-          lineHeight: '1.6',
-          padding: '1rem'
+          textAlign: 'center',
+          color: 'white',
+          fontSize: '1.1rem',
+          lineHeight: '1.6'
         }}>
           {fact || 'No cat fact available'}
         </div>

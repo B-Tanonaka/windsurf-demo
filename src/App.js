@@ -40,26 +40,22 @@ function App() {
   return (
     <div className="app-container">
       <div className="game-container">
-
-        <button
-          onClick={handleRulesClick}
-          className="rules-button"
-        >
-          📚 Rules
-        </button>
-        <div className="game-board-container">
-          <TicTacToe onPlayerChange={handlePlayerChange} />
-          <div className="cat-fact-container" style={{
-            marginTop: '1.5rem',
-            width: '100%',
-            maxWidth: '600px',
-            margin: '1.5rem auto 0'
-          }}>
-            <CatFact fact={catFact} />
+        <div style={{
+          display: 'flex',
+          flexDirection: 'column',
+          gap: '1rem',
+          flex: 1
+        }}>
+          <button onClick={handleRulesClick} className="rules-button">
+            📚 Rules
+          </button>
+          <div className="game-board-container">
+            <TicTacToe onPlayerChange={handlePlayerChange} />
           </div>
         </div>
-        <RulesModal isOpen={showRules} onClose={handleCloseRules} />
       </div>
+      <CatFact fact={catFact} />
+      <RulesModal isOpen={showRules} onClose={handleCloseRules} />
     </div>
   );
 }
