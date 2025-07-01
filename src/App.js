@@ -10,10 +10,7 @@ function App() {
   const [showRules, setShowRules] = useState(false);
   const [catFact, setCatFact] = useState('');
 
-  useEffect(() => {
-    // Fetch initial cat fact
-    setCatFact(''); // Trigger initial fetch
-  }, []);
+  // No need for initial effect as CatFact handles its own data fetching
 
   // Add setCatFact to window for child component access
   useEffect(() => {

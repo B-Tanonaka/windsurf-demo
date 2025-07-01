@@ -34,6 +34,7 @@ const CatFact = ({ fact }) => {
   useEffect(() => {
     if (fact === '') {
       setLoading(true);
+      // Call the Cat Facts API directly
       fetch('https://catfact.ninja/fact')
         .then(response => response.json())
         .then(data => {
