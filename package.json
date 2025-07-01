@@ -22,13 +22,13 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
-    "build": "CI=false react-scripts build",
-    "test": "react-scripts test",
+    "start": "react-app-rewired start",
+    "build": "CI=false react-app-rewired build",
+    "test": "react-app-rewired test",
     "eject": "react-scripts eject",
-    "predeploy": "PUBLIC_URL=/Windsurf-Demo npm run build && ./scripts/fix-paths.sh",
+    "predeploy": "npm run build",
     "deploy": "gh-pages -d build",
-    "start:frontend": "react-scripts start",
+    "start:frontend": "react-app-rewired start",
     "start:backend": "nodemon server.js"
   },
   "eslintConfig": {
@@ -50,7 +50,9 @@
     ]
   },
   "devDependencies": {
+    "customize-cra": "^1.0.0",
     "html-webpack-plugin": "^5.5.3",
+    "react-app-rewired": "^2.2.1",
     "replace-in-file": "^8.3.0"
   }
 }
