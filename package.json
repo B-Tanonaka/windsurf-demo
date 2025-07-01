@@ -2,7 +2,7 @@
   "name": "frontend",
   "version": "0.1.0",
   "private": true,
-  "homepage": "./",
+  "homepage": "/Windsurf-Demo",
   "engines": {
     "node": ">=22.0.0"
   },
@@ -23,7 +23,7 @@
   },
   "scripts": {
     "start": "react-app-rewired start",
-    "build": "CI=false react-app-rewired build",
+    "build": "GENERATE_SOURCEMAP=false CI=false react-app-rewired build",
     "test": "react-app-rewired test",
     "eject": "react-scripts eject",
     "predeploy": "npm run build",
@@ -50,9 +50,14 @@
     ]
   },
   "devDependencies": {
+    "buffer": "^6.0.3",
+    "crypto-browserify": "^3.12.1",
     "customize-cra": "^1.0.0",
     "html-webpack-plugin": "^5.5.3",
+    "os-browserify": "^0.3.0",
+    "path-browserify": "^1.0.1",
     "react-app-rewired": "^2.2.1",
-    "replace-in-file": "^8.3.0"
+    "replace-in-file": "^8.3.0",
+    "stream-browserify": "^3.0.0"
   }
 }
